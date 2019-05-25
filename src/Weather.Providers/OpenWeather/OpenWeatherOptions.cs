@@ -1,6 +1,6 @@
 ﻿namespace Weather.Providers.OpenWeather
 {
-	public class OpenWeatherOptions
+	internal class OpenWeatherOptions
 	{
 		public string AppId { get; set; }
 	}

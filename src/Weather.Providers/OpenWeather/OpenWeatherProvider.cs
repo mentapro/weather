@@ -8,7 +8,7 @@ using Weather.Providers.OpenWeather.Models;
 
 namespace Weather.Providers.OpenWeather
 {
-	public class OpenWeatherProvider
+	internal class OpenWeatherProvider
 	{
 		private const string BaseAddress = "http://api.openweathermap.org/data/2.5";
 		private static readonly string[] AvailableUnits = {"metric", "imperial"};

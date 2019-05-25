@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Weather.Providers.OpenWeather
 {
-	public class HttpClientErrorHandler : DelegatingHandler
+	internal class HttpClientErrorHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{

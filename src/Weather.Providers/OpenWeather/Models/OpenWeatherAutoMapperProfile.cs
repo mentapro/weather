@@ -4,7 +4,7 @@ using Weather.Core;
 
 namespace Weather.Providers.OpenWeather.Models
 {
-	public class OpenWeatherAutoMapperProfile : Profile
+	internal class OpenWeatherAutoMapperProfile : Profile
 	{
 		public OpenWeatherAutoMapperProfile()
 		{

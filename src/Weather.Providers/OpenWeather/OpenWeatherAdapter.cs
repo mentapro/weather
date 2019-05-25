@@ -6,7 +6,7 @@ using Weather.Providers.OpenWeather.Models;
 
 namespace Weather.Providers.OpenWeather
 {
-	public class OpenWeatherAdapter : IWeatherProvider
+	internal class OpenWeatherAdapter : IWeatherProvider
 	{
 		private readonly OpenWeatherProvider _provider;
 		private readonly IMapper _mapper;

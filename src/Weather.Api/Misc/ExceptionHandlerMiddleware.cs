@@ -27,7 +27,7 @@ namespace Weather.Api.Misc
 				context.Response.StatusCode = 400;
 				await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
 			}
-			catch (OpenWeatherHttpException ex)
+			catch (WeatherHttpException ex)
 			{
 				var result = new ErrorResult {Message = ex.Message};
 				context.Response.StatusCode = ex.StatusCode;

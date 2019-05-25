@@ -1,14 +1,11 @@
-using System;
+using Weather.Common;
 
 namespace Weather.Providers.OpenWeather
 {
-	public class OpenWeatherHttpException : Exception
+	internal class OpenWeatherHttpException : WeatherHttpException
 	{
-		public int StatusCode { get; }
-
-		public OpenWeatherHttpException(string message, int statusCode) : base(message)
+		public OpenWeatherHttpException(string message, int statusCode) : base(message, statusCode)
 		{
-			StatusCode = statusCode;
 		}
 	}
 }
