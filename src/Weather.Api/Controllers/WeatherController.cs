@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Weather.Core;
 
 namespace Weather.Api.Controllers
 {
@@ -6,8 +8,18 @@ namespace Weather.Api.Controllers
 	[ApiController]
 	public class WeatherController : ControllerBase
 	{
-		public WeatherController()
+		private readonly IWeatherProvider _weatherProvider;
+
+		public WeatherController(IWeatherProvider weatherProvider)
 		{
+			_weatherProvider = weatherProvider;
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Get()
+		{
+			var current = await _weatherProvider.GetCurrentWeatherAsync();
+			return Ok(current);
 		}
 	}
 }
