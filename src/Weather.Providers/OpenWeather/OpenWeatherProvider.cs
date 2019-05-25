@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Extensions.Logging;
 using Weather.Common;
 using Weather.Providers.OpenWeather.Models;
 
@@ -13,15 +14,18 @@ namespace Weather.Providers.OpenWeather
 		private const string BaseAddress = "http://api.openweathermap.org/data/2.5";
 		private static readonly string[] AvailableUnits = {"metric", "imperial"};
 		private readonly HttpClient _httpClient;
+		private readonly ILogger<OpenWeatherProvider> _logger;
 
-		public OpenWeatherProvider(HttpClient httpClient)
+		public OpenWeatherProvider(HttpClient httpClient, ILogger<OpenWeatherProvider> logger)
 		{
 			_httpClient = httpClient;
+			_logger = logger;
 		}
 
 		// Here are requests for OpenWeather API, building query, reading response
 		internal async Task<OpenWeatherItem> GetCurrentWeatherAsync(string city, string units = "metric")
 		{
+			_logger.LogInformation("Called '{method}' with params (city: '{city}', units: '{units}')", nameof(GetCurrentWeatherAsync), city, units);
 			if (string.IsNullOrWhiteSpace(city))
 				throw new WeatherValidationException("City name cannot be empty.");
 			if (!string.IsNullOrWhiteSpace(units) && !AvailableUnits.Contains(units))
@@ -47,6 +51,7 @@ namespace Weather.Providers.OpenWeather
 		// And, of course, these calls can act differently
 		internal async Task<OpenWeatherForecast> GetForecastWeatherAsync(string city, string units = "metric")
 		{
+			_logger.LogInformation("Called '{method}' with params (city: '{city}', units: '{units}')", nameof(GetForecastWeatherAsync), city, units);
 			if (string.IsNullOrWhiteSpace(city))
 				throw new WeatherValidationException("City name cannot be empty.");
 			if (!string.IsNullOrWhiteSpace(units) && !AvailableUnits.Contains(units))

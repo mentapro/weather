@@ -33,7 +33,7 @@ namespace Weather.Api.Misc
 				context.Response.StatusCode = ex.StatusCode;
 				await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
 			}
-			catch (HttpRequestException ex)
+			catch (HttpRequestException)
 			{
 				var result = new ErrorResult {Message = "Some unhandled http error."};
 				context.Response.StatusCode = 500;
