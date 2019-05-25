@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weather.Core.Workers;
@@ -19,9 +20,13 @@ namespace Weather.Api.Controllers
 
 		[HttpGet]
 		[Route("get")]
-		public async Task<ActionResult<GetWeatherDto>> GetWeather([Required] string city, string units)
+		public async Task<ActionResult<GetWeatherDto>> GetWeather([Required] string city, string units, string sortColumn = null, SortOrder sortOrder = SortOrder.Ascending)
 		{
-			return await _worker.GetWeatherAsync(city, units);
+			SortingCriteria sorting = null;
+			if (!string.IsNullOrWhiteSpace(sortColumn))
+				sorting = new SortingCriteria {ColumnName = sortColumn, SortOrder = sortOrder};
+
+			return await _worker.GetWeatherAsync(city, units, sorting);
 		}
 	}
 }
