@@ -16,6 +16,7 @@ namespace Weather.Providers.OpenWeather
 			_options = options.Value;
 		}
 
+		// Add OpenWeather 'appid' to every request for OpenWeatherProvider
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			var uri = QueryHelpers.AddQueryString(request.RequestUri.OriginalString, "appid", _options.AppId);

@@ -19,6 +19,7 @@ namespace Weather.Providers.OpenWeather
 			_httpClient = httpClient;
 		}
 
+		// Here are requests for OpenWeather API, building query, reading response
 		internal async Task<OpenWeatherItem> GetCurrentWeatherAsync(string city, string units = "metric")
 		{
 			if (string.IsNullOrWhiteSpace(city))

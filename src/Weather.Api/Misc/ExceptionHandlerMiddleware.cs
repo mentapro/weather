@@ -1,8 +1,8 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Weather.Common;
-using Weather.Providers.OpenWeather;
 
 namespace Weather.Api.Misc
 {
@@ -31,6 +31,12 @@ namespace Weather.Api.Misc
 			{
 				var result = new ErrorResult {Message = ex.Message};
 				context.Response.StatusCode = ex.StatusCode;
+				await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+			}
+			catch (HttpRequestException ex)
+			{
+				var result = new ErrorResult {Message = "Some unhandled http error."};
+				context.Response.StatusCode = 500;
 				await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
 			}
 		}

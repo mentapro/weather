@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -7,6 +8,7 @@ namespace Weather.Providers.OpenWeather
 {
 	internal class HttpClientErrorHandler : DelegatingHandler
 	{
+		// Handle for OpenWeather errors like 'City not found' and 'server unavailable'
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			HttpResponseMessage response = null;
@@ -17,7 +19,8 @@ namespace Weather.Providers.OpenWeather
 			}
 			catch (HttpRequestException)
 			{
-				if (response == null || response.StatusCode == HttpStatusCode.InternalServerError)
+				var serverError = new[] {HttpStatusCode.InternalServerError, HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable};
+				if (response == null || serverError.Contains(response.StatusCode))
 					throw new OpenWeatherHttpException("Server temporarily unavailable.", 500);
 
 				if (response.StatusCode == HttpStatusCode.NotFound)

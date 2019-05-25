@@ -6,6 +6,7 @@ namespace Weather.Providers.OpenWeather
 {
 	public static class OpenWeatherServiceCollectionExtensions
 	{
+		// Extension to make usage OpenWeather more easier
 		public static IServiceCollection AddOpenWeather(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
