@@ -7,11 +7,11 @@ using Microsoft.Extensions.Options;
 
 namespace Weather.Providers.OpenWeather
 {
-	public class AppIdHeaderHandler : DelegatingHandler
+	public class AppIdQueryStringHandler : DelegatingHandler
 	{
 		private readonly OpenWeatherOptions _options;
 
-		public AppIdHeaderHandler(IOptions<OpenWeatherOptions> options)
+		public AppIdQueryStringHandler(IOptions<OpenWeatherOptions> options)
 		{
 			_options = options.Value;
 		}

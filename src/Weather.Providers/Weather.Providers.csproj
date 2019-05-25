@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Weather.Common\Weather.Common.csproj" />
       <ProjectReference Include="..\Weather.Core\Weather.Core.csproj" />
     </ItemGroup>
 

@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Weather.Core;
+using Weather.Core.Workers;
+using Weather.Core.Workers.Dto;
 
 namespace Weather.Api.Controllers
 {
@@ -8,18 +10,18 @@ namespace Weather.Api.Controllers
 	[ApiController]
 	public class WeatherController : ControllerBase
 	{
-		private readonly IWeatherProvider _weatherProvider;
+		private readonly WeatherWorker _worker;
 
-		public WeatherController(IWeatherProvider weatherProvider)
+		public WeatherController(WeatherWorker worker)
 		{
-			_weatherProvider = weatherProvider;
+			_worker = worker;
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Get()
+		[Route("get")]
+		public async Task<ActionResult<GetWeatherDto>> GetWeather([Required] string city, string units)
 		{
-			var current = await _weatherProvider.GetCurrentWeatherAsync();
-			return Ok(current);
+			return await _worker.GetWeatherAsync(city, units);
 		}
 	}
 }

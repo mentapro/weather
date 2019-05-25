@@ -1,4 +1,4 @@
-﻿namespace Weather.Providers
+﻿namespace Weather.Providers.OpenWeather
 {
 	public class OpenWeatherOptions
 	{

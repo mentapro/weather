@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Weather.Core;
@@ -16,11 +17,18 @@ namespace Weather.Providers.OpenWeather
 			_mapper = mapper;
 		}
 
-		public async Task<WeatherItem> GetCurrentWeatherAsync()
+		public async Task<WeatherItem> GetCurrentWeatherAsync(string cityName, string units)
 		{
-			var currentWeather = await _provider.GetCurrentWeatherAsync();
+			var currentWeather = await _provider.GetCurrentWeatherAsync(cityName, units);
 			var coreWeather = _mapper.Map<OpenWeatherItem, WeatherItem>(currentWeather);
 			return coreWeather;
+		}
+
+		public async Task<IEnumerable<WeatherItem>> GetForecastWeatherAsync(string cityName, string units)
+		{
+			var forecastWeather = await _provider.GetForecastWeatherAsync(cityName, units);
+			var forecastCore = _mapper.Map<IEnumerable<OpenWeatherItem>, IEnumerable<WeatherItem>>(forecastWeather.Items);
+			return forecastCore;
 		}
 	}
 }
