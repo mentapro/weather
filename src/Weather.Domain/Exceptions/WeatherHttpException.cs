@@ -1,6 +1,6 @@
 using System;
 
-namespace Weather.Common
+namespace Weather.Domain.Exceptions
 {
 	public class WeatherHttpException : Exception
 	{

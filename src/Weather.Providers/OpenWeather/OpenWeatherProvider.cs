@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Extensions.Logging;
-using Weather.Common;
+using Weather.Domain.Exceptions;
 using Weather.Providers.OpenWeather.Models;
 
 namespace Weather.Providers.OpenWeather

@@ -1,6 +1,6 @@
 using System;
 
-namespace Weather.Core
+namespace Weather.Domain
 {
 	public class WeatherItem
 	{

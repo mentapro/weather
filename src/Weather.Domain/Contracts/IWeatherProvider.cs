@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Weather.Core
+namespace Weather.Domain.Contracts
 {
 	public interface IWeatherProvider
 	{

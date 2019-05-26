@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Weather.Core;
+using Weather.Domain.Contracts;
+using Weather.Domain.Exceptions;
 
 namespace Weather.Providers.OpenWeather
 {
@@ -9,7 +10,12 @@ namespace Weather.Providers.OpenWeather
 		// Extension to make usage OpenWeather more easier
 		public static IServiceCollection AddOpenWeather(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
+			var openWeatherSection = configuration.GetSection("OpenWeather");
+			var options = openWeatherSection.Get<OpenWeatherOptions>();
+			if (string.IsNullOrWhiteSpace(options.AppId))
+				throw new WeatherValidationException("Please, provide 'OpenWeather__AppId' variable to your environment.");
+
+			services.Configure<OpenWeatherOptions>(openWeatherSection);
 
 			services
 				.AddHttpClient<OpenWeatherProvider>()

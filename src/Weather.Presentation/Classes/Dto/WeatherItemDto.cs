@@ -1,6 +1,6 @@
 using System;
 
-namespace Weather.Core.Workers.Dto
+namespace Weather.Presentation.Classes.Dto
 {
 	public class WeatherItemDto
 	{

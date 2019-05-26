@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using Weather.Api.Misc;
-using Weather.Core.Services;
-using Weather.Core.Services.Impl;
-using Weather.Core.Workers;
+using Weather.Domain.Services;
+using Weather.Domain.Services.Impl;
+using Weather.Presentation.Workers;
 using Weather.Providers.OpenWeather;
 
 namespace Weather.Api
@@ -34,7 +34,7 @@ namespace Weather.Api
 				.AddTransient<WeatherWorker>()
 				.AddTransient<IWeatherService, WeatherService>();
 
-			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Weather API", Version = "v1"}); });
+			services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info {Title = "Weather API", Version = "v1"}));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}

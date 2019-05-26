@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weather.Domain.Contracts;
 
-namespace Weather.Core.Services.Impl
+namespace Weather.Domain.Services.Impl
 {
 	public class WeatherService : IWeatherService
 	{

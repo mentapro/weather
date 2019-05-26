@@ -2,8 +2,8 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Weather.Core.Workers;
-using Weather.Core.Workers.Dto;
+using Weather.Presentation.Classes.Dto;
+using Weather.Presentation.Workers;
 
 namespace Weather.Api.Controllers
 {
@@ -22,11 +22,7 @@ namespace Weather.Api.Controllers
 		[Route("get")]
 		public async Task<ActionResult<GetWeatherDto>> GetWeather([Required] string city, string units, string sortColumn = null, SortOrder sortOrder = SortOrder.Ascending)
 		{
-			SortingCriteria sorting = null;
-			if (!string.IsNullOrWhiteSpace(sortColumn))
-				sorting = new SortingCriteria {ColumnName = sortColumn, SortOrder = sortOrder};
-
-			return await _worker.GetWeatherAsync(city, units, sorting);
+			return await _worker.GetWeatherAsync(city, units, sortColumn, sortOrder);
 		}
 	}
 }

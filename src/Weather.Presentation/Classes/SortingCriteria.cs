@@ -1,6 +1,6 @@
 using System.Data.SqlClient;
 
-namespace Weather.Core.Workers
+namespace Weather.Presentation.Classes
 {
 	public class SortingCriteria
 	{

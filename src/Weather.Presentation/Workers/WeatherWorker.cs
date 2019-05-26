@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Weather.Common;
-using Weather.Core.Services;
-using Weather.Core.Workers.Dto;
+using Weather.Domain;
+using Weather.Domain.Services;
+using Weather.Presentation.Classes;
+using Weather.Presentation.Classes.Dto;
 
-namespace Weather.Core.Workers
+namespace Weather.Presentation.Workers
 {
 	public class WeatherWorker
 	{
@@ -21,8 +20,12 @@ namespace Weather.Core.Workers
 			_mapper = mapper;
 		}
 
-		public async Task<GetWeatherDto> GetWeatherAsync(string city, string units, SortingCriteria sorting = null)
+		public async Task<GetWeatherDto> GetWeatherAsync(string city, string units, string sortColumn = null, SortOrder sortOrder = SortOrder.Ascending)
 		{
+			SortingCriteria sorting = null;
+			if (!string.IsNullOrWhiteSpace(sortColumn))
+				sorting = new SortingCriteria {ColumnName = sortColumn, SortOrder = sortOrder};
+			
 			// Create two async calls
 			var currentWeatherTask = _weatherService.GetCurrentWeatherAsync(city, units);
 			var forecastWeatherTask = _weatherService.GetDayAverageWeatherForecastAsync(city, units);
@@ -41,18 +44,6 @@ namespace Weather.Core.Workers
 			};
 
 			return dto;
-		}
-	}
-
-	public static class OrderingExtensions
-	{
-		public static IEnumerable<T> OrderByCriteria<T>(this IEnumerable<T> source, SortingCriteria sorting)
-		{
-			var sortingProperty = typeof(T).GetProperties().FirstOrDefault(x => string.Equals(x.Name, sorting.ColumnName, StringComparison.InvariantCultureIgnoreCase));
-			if (sortingProperty == null)
-				throw new WeatherValidationException($"{typeof(T).Name} does not have column name '{sorting.ColumnName}'.");
-
-			return sorting.SortOrder == SortOrder.Ascending ? source.OrderBy(x => sortingProperty.GetValue(x)) : source.OrderByDescending(x => sortingProperty.GetValue(x));
 		}
 	}
 }

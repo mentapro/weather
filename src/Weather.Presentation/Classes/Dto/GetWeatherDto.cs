@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Weather.Core.Workers.Dto
+namespace Weather.Presentation.Classes.Dto
 {
 	public class GetWeatherDto
 	{

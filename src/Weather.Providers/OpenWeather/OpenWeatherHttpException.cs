@@ -1,4 +1,4 @@
-using Weather.Common;
+using Weather.Domain.Exceptions;
 
 namespace Weather.Providers.OpenWeather
 {

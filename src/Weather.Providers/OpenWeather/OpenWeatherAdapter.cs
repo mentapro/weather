@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Weather.Core;
+using Weather.Domain;
+using Weather.Domain.Contracts;
 using Weather.Providers.OpenWeather.Models;
 
 namespace Weather.Providers.OpenWeather
@@ -17,7 +18,7 @@ namespace Weather.Providers.OpenWeather
 			_mapper = mapper;
 		}
 
-		// Adapting (mapping) 'OpenWeather' model to 'Weather.Core' model
+		// Adapting (mapping) 'OpenWeather' model to 'Weather.Domain' model
 		public async Task<WeatherItem> GetCurrentWeatherAsync(string cityName, string units)
 		{
 			var currentWeather = await _provider.GetCurrentWeatherAsync(cityName, units);

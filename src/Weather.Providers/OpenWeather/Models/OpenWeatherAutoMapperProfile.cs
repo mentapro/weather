@@ -1,6 +1,6 @@
 using System;
 using AutoMapper;
-using Weather.Core;
+using Weather.Domain;
 
 namespace Weather.Providers.OpenWeather.Models
 {

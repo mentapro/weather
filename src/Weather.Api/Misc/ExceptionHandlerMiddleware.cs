@@ -2,7 +2,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Weather.Common;
+using Weather.Domain.Exceptions;
 
 namespace Weather.Api.Misc
 {
