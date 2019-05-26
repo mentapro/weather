@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.EntityFrameworkCore.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
 using Weather.Api.Misc;
+using Weather.Domain.Contracts;
 using Weather.Domain.Services;
 using Weather.Domain.Services.Impl;
+using Weather.Infrastructure;
+using Weather.Infrastructure.Repositories;
 using Weather.Presentation.Workers;
 using Weather.Providers.OpenWeather;
 
@@ -34,6 +40,20 @@ namespace Weather.Api
 				.AddTransient<WeatherWorker>()
 				.AddTransient<IWeatherService, WeatherService>();
 
+			services.AddScoped<IWeatherItemRepository, WeatherItemRepository>();
+			
+			var dbSection = Configuration.GetSection("Database:Weather");
+			var dbOptions = dbSection.Get<DbConnectionOptions>();
+			
+			services
+				.Configure<DbConnectionOptions>(dbSection)
+				.AddEntityFrameworkMySQL()
+				.AddDbContext<WeatherContext>(options =>
+				{
+					options.UseMySQL(dbOptions.ConnectionString,
+						builder => builder.MigrationsAssembly(typeof(WeatherContext).GetTypeInfo().Assembly.GetName().Name));
+				});
+			
 			services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info {Title = "Weather API", Version = "v1"}));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
