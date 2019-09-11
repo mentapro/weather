@@ -5,7 +5,7 @@ namespace Weather.Domain.Services
 {
 	public interface IWeatherService
 	{
-		Task<WeatherItem> GetCurrentWeatherAsync(string cityName, string units);
+		Task<WeatherDataSource> GetCurrentWeatherAsync(string cityName);
 
 		Task<IEnumerable<WeatherItem>> GetDetailedWeatherForecastAsync(string cityName, string units);
 

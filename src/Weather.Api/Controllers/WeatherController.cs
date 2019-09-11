@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data.SqlClient;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Weather.Presentation.Classes.Dto;
-using Weather.Presentation.Workers;
+using Weather.Domain;
+using Weather.Domain.Services;
 
 namespace Weather.Api.Controllers
 {
@@ -11,18 +11,18 @@ namespace Weather.Api.Controllers
 	[ApiController]
 	public class WeatherController : ControllerBase
 	{
-		private readonly WeatherWorker _worker;
+		private readonly IWeatherService _weatherService;
 
-		public WeatherController(WeatherWorker worker)
+		public WeatherController(IWeatherService weatherService)
 		{
-			_worker = worker;
+			_weatherService = weatherService ?? throw new ArgumentNullException(nameof(weatherService));
 		}
 
 		[HttpGet]
 		[Route("get")]
-		public async Task<ActionResult<GetWeatherDto>> GetWeather([Required] string city, string units, string sortColumn = null, SortOrder sortOrder = SortOrder.Ascending)
+		public async Task<ActionResult<WeatherDataSource>> GetWeather([Required] string city)
 		{
-			return await _worker.GetWeatherAsync(city, units, sortColumn, sortOrder);
+			return await _weatherService.GetCurrentWeatherAsync(city);
 		}
 	}
 }

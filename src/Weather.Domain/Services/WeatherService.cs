@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Weather.Domain.Contracts;
+using Newtonsoft.Json;
 
-namespace Weather.Domain.Services.Impl
+namespace Weather.Domain.Services
 {
 	public class WeatherService : IWeatherService
 	{
@@ -15,19 +16,25 @@ namespace Weather.Domain.Services.Impl
 			_weatherProvider = weatherProvider;
 		}
 
-		public Task<WeatherItem> GetCurrentWeatherAsync(string cityName, string units)
+		public async Task<WeatherDataSource> GetCurrentWeatherAsync(string cityName)
 		{
-			return _weatherProvider.GetCurrentWeatherAsync(cityName, units);
+			var weather = await _weatherProvider.GetCurrentWeatherAsync(cityName);
+			
+			// write to file
+			var info = JsonConvert.SerializeObject(weather, Formatting.Indented);
+			await File.WriteAllTextAsync(Path.GetTempFileName(), info);
+
+			return weather;
 		}
 
 		public async Task<IEnumerable<WeatherItem>> GetDetailedWeatherForecastAsync(string cityName, string units)
 		{
-			return (await _weatherProvider.GetForecastWeatherAsync(cityName, units)).OrderBy(x => x.Date);
+			return (await _weatherProvider.GetForecastWeatherAsync(cityName)).OrderBy(x => x.Date);
 		}
 
 		public async Task<IEnumerable<WeatherItem>> GetDayAverageWeatherForecastAsync(string cityName, string units)
 		{
-			var detailedForecast = await _weatherProvider.GetForecastWeatherAsync(cityName, units);
+			var detailedForecast = await _weatherProvider.GetForecastWeatherAsync(cityName);
 			var groupedByDays = (
 				from weatherItem in detailedForecast
 				group weatherItem by weatherItem.Date.Date
